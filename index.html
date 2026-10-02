@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Code - Live Editor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/editor/editor.main.css">
+</head>
+<body>
+  <!-- Title Bar -->
+  <div class="title-bar">
+    <div class="title-bar-left">
+      <span class="app-icon">◇</span>
+      <span class="menu-item">File</span>
+      <span class="menu-item">Edit</span>
+      <span class="menu-item">Selection</span>
+      <span class="menu-item">View</span>
+      <span class="menu-item">Go</span>
+      <span class="menu-item">Run</span>
+      <span class="menu-item">Terminal</span>
+      <span class="menu-item">Help</span>
+    </div>
+    <div class="title-bar-center">index.html - Live Code Editor</div>
+    <div class="title-bar-right">
+      <div class="window-btn minimize"></div>
+      <div class="window-btn maximize"></div>
+      <div class="window-btn close"></div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <!-- Activity Bar -->
+    <div class="activity-bar">
+      <div class="activity-icon active" title="Explorer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+        </svg>
+      </div>
+      <div class="activity-icon" title="Search">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </div>
+      <div class="activity-icon" title="Source Control">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 019 9"/>
+        </svg>
+      </div>
+      <div class="activity-icon" title="Run">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </div>
+      <div class="activity-spacer"></div>
+      <div class="activity-icon" title="Settings">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-title">EXPLORER</div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-header open">
+          <span class="chevron">▶</span> OPEN EDITORS
+        </div>
+        <div class="open-editors">
+          <div class="file-item active" data-file="html">
+            <span class="file-icon">📄</span> index.html
+          </div>
+          <div class="file-item" data-file="css">
+            <span class="file-icon">🎨</span> style.css
+          </div>
+          <div class="file-item" data-file="js">
+            <span class="file-icon">📜</span> script.js
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-header open">
+          <span class="chevron">▶</span> PROJECT
+        </div>
+        <div class="folder-tree">
+          <div class="file-item" data-file="html">
+            <span class="file-icon">📄</span> index.html
+          </div>
+          <div class="file-item" data-file="css">
+            <span class="file-icon">🎨</span> style.css
+          </div>
+          <div class="file-item" data-file="js">
+            <span class="file-icon">📜</span> script.js
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor Area -->
+    <div class="editor-area">
+      <div class="tabs">
+        <div class="tab active" data-file="html">
+          <span>📄</span> index.html
+          <span class="tab-close">×</span>
+        </div>
+        <div class="tab" data-file="css">
+          <span>🎨</span> style.css
+          <span class="tab-close">×</span>
+        </div>
+        <div class="tab" data-file="js">
+          <span>📜</span> script.js
+          <span class="tab-close">×</span>
+        </div>
+      </div>
+
+      <div class="editors">
+        <div id="editor-html" class="monaco-container active"></div>
+        <div id="editor-css" class="monaco-container"></div>
+        <div id="editor-js" class="monaco-container"></div>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-panel">
+      <div class="preview-header">
+        <span>Preview</span>
+        <div class="preview-actions">
+          <button id="runBtn">▶ Run</button>
+          <button id="refreshBtn">↻</button>
+        </div>
+      </div>
+      <iframe id="preview"></iframe>
+    </div>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span class="status-item">main*</span>
+      <span class="status-item">0 errors</span>
+    </div>
+    <div class="status-right">
+      <span class="status-item" id="cursor-pos">Ln 1, Col 1</span>
+      <span class="status-item">Spaces: 2</span>
+      <span class="status-item">UTF-8</span>
+      <span class="status-item" id="lang-label">HTML</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
